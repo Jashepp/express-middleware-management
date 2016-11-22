@@ -1,6 +1,6 @@
 {
   "name": "express-middleware-management",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Manage middleware for express applications on the run",
   "main": "index.js",
   "scripts": {
@@ -18,9 +18,9 @@
     "enable",
     "disable",
     "insertBefore",
-	"insertAfter",
-	"getPrevious",
-	"getNext",
+    "insertAfter",
+    "getPrevious",
+    "getNext",
     "remove"
   ]
 }
