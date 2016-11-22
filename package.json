@@ -1,6 +1,6 @@
 {
   "name": "express-middleware-management",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Manage middleware for express applications on the run",
   "main": "index.js",
   "scripts": {
