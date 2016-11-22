@@ -28,11 +28,10 @@ Or [download the latest release](https://github.com/Unchosen/express-middleware-
 
 ### How to use / Example
 
-Require the module, create a mangement instance, fetch the middleware to manage, then action!
+Require the module, create a management instance, fetch the middleware to manage, then action!
 
 ```javascript
 // Require Modules
-var fs = require('fs');
 var express = require('express');
 var http = require('http');
 var expressMiddlewareManagement = require('express-middleware-management');
@@ -77,7 +76,7 @@ setInterval(function(){
 // Now if you visit http://localhost/ and refresh every second, you'll see them switching.
 ```
 
-It is reccomended to use sub express applications with a middleware management instance attached to that instead of the main express application, to keep code clean and to segment what the management instance has access to.
+It is recommended to use sub express applications with a middleware management instance attached to that instead of the main express application, to keep code clean and to segment what the management instance has access to.
 
 ## API
 
@@ -88,28 +87,28 @@ Methods to get a management object (manageObject) for a middleware
 
 // Get via position in manageMiddleware.middlewareStack (app._router.stack)
 manageMiddleware.getByStackIndex(index);
-// Returns management object on sucess, false on failure.
+// Returns management object on success, false on failure.
 
 // Get by function/handle name. index argument is optional
 manageMiddleware.getByName('myCustomMiddleware'[,index]);
 // If more than one exist with that name, return false, otherwise if index is specified, return the nth result. -1 for the last result.
-// Returns management object on sucess, false on failure.
+// Returns management object on success, false on failure.
 
 // Get an array of all by function/handle name
 manageMiddleware.getAllByName('myCustomMiddleware');
-// Returns an array of management objects on sucess, or an empty array on failure.
+// Returns an array of management objects on success, or an empty array on failure.
 
 // Get by function/handle itself
 manageMiddleware.getByHandle(theMiddlewareFunction);
-// Returns management object on sucess, false on failure.
+// Returns management object on success, false on failure.
 
 // Get by management object ID
 manageMiddleware.getByID(ID); // manageObject.id
-// Returns management object on sucess, false on failure.
+// Returns management object on success, false on failure.
 
 // Get the most recently added middleware. This would most likely be the method you use the most.
 manageMiddleware.getRecent();
-// Returns management object on sucess, false on failure.
+// Returns management object on success, false on failure.
 ```
 
 Other methods on the middleware management interface
@@ -121,7 +120,7 @@ Other methods on the middleware management interface
 manageMiddleware.addLayer(Layer);
 ```
 
-Methods to to manage the middleware returned via the get methods above
+Methods to manage the middleware returned via the get methods above
 ```javascript
 // let 'manageObject' be the management object for a middleware
 
@@ -162,7 +161,7 @@ manageObject.getNext()
 // Returns manageObject2 on success or false if there is no middleware after it
 ```
 
-If there are any more features you would like me to implement, please create a github issue with an example of how you would use it.
+If there are any more features you would like me to implement, please [create a GitHub issue](https://github.com/Unchosen/express-middleware-management/issues/new) with an example of how you would use it.
 
 ## Known Issues
 
@@ -174,7 +173,7 @@ None. Try existing express applications with this module.
 
 ## Contributors
 
-Create issues on the Github project or create pull requests.
+Create issues on the GitHub project or create pull requests.
 
 All the help is appreciated.
 
@@ -204,7 +203,7 @@ SOFTWARE.
 
 ## Links
 
-Github Repository: [https://github.com/Unchosen/express-middleware-management](https://github.com/Unchosen/express-middleware-management)
+GitHub Repository: [https://github.com/Unchosen/express-middleware-management](https://github.com/Unchosen/express-middleware-management)
 
 NPM Package: [https://www.npmjs.com/package/express-middleware-management](https://www.npmjs.com/package/express-middleware-management)
 
