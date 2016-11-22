@@ -78,6 +78,17 @@ setInterval(function(){
 
 It is recommended to use sub express applications with a middleware management instance attached to that instead of the main express application, to keep code clean and to segment what the management instance has access to.
 
+When creating an instance for a sub express application, the application must be attached to the parent application before hand.
+```javascript
+// let 'app' be the main express() application
+// Create sub application
+var subApp = express();
+// Attach it to the parent application
+app.use(subApp);
+// Create Middleware Management Instance (must be after the app is attached to it's parent app!)
+var manageMiddleware = expressMiddlewareManagement.createInstance(subApp);
+```
+
 ## API
 
 Methods to get a management object (manageObject) for a middleware
