@@ -56,6 +56,13 @@ var instanceProto = {
 		}
 		return false;
 	},
+	getByLayer: function(layer){
+		for(var i=0,l=this.middlewareStack.length; i<l; i++){
+			var layerObj = this.middlewareStack[i];
+			if(layer===layerObj) return manageObject(this,layer);
+		}
+		return false;
+	},
 	getRecent: function(){
 		if(this.middlewareStack.length>0){
 			var layer = this.middlewareStack[this.middlewareStack.length-1];

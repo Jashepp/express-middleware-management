@@ -116,6 +116,10 @@ manageMiddleware.getAllByName('myCustomMiddleware');
 manageMiddleware.getByHandle(theMiddlewareFunction);
 // Returns management object on success, false on failure.
 
+// Get by router stack Layer itself
+manageMiddleware.getByLayer(layer);
+// Returns management object on success, false on failure.
+
 // Get the most recently added middleware. This would most likely be the method you use the most.
 manageMiddleware.getRecent();
 // Returns management object on success, false on failure.
