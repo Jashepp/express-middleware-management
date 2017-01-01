@@ -4,8 +4,6 @@
  * GitHub Repository: https://github.com/Unchosen/express-middleware-management
  * NPM Package: https://www.npmjs.com/package/express-middleware-management
  * 
- * 
- * 
  * See README.md for more information.
  */
 
@@ -15,8 +13,7 @@ me.createInstance = function(expressApp){
 	return {
 		__proto__: instanceProto,
 		middlewareStack: expressApp._router.stack,
-		_manageList: {},
-		_manageListIndex: 0
+		manageObjectMap: new Map()
 	};
 };
 
@@ -59,15 +56,6 @@ var instanceProto = {
 		}
 		return false;
 	},
-	getByID: function(id){
-		for(var i=0,l=this.middlewareStack.length; i<l; i++){
-			var layer = this.middlewareStack[i];
-			if(!('_emmObjID' in layer)) continue;
-			var manageObj = this._manageList[layer._emmObjID];
-			if(manageObj.id===id) return manageObj;
-		}
-		return false;
-	},
 	getRecent: function(){
 		if(this.middlewareStack.length>0){
 			var layer = this.middlewareStack[this.middlewareStack.length-1];
@@ -83,11 +71,10 @@ var instanceProto = {
 };
 
 var manageObject = function(instanceObj,layerObj){
-	if('_emmObjID' in layerObj) return instanceObj._manageList[layerObj._emmObjID];
-	var id = instanceObj._manageListIndex++;
-	layerObj._emmObjID = id;
-	var obj = { __proto__:manageObjectProto, instance:instanceObj, id:id, layer:layerObj, enabled:true, _handle:null };
-	return instanceObj._manageList[id] = obj;
+	if(instanceObj.manageObjectMap.has(layerObj)) return instanceObj.manageObjectMap.get(layerObj);
+	var obj = { __proto__:manageObjectProto, instance:instanceObj, layer:layerObj, enabled:true, _handle:null };
+	instanceObj.manageObjectMap.set(layerObj,obj);
+	return obj;
 };
 
 var manageObjectProto = {
@@ -113,14 +100,12 @@ var manageObjectProto = {
 		var pos1 = this.instance.middlewareStack.indexOf(layer);
 		if(pos1===-1) return false;
 		this.instance.middlewareStack.splice(pos1,1);
-		if(!(this.id in this.instance._manageList)) return false;
-		delete this.instance._manageList[this.id];
-		this.id = null;
-		delete layer['_emmObjID'];
+		if(!this.instance.manageObjectMap.has(layer)) return false;
+		this.instance.manageObjectMap.delete(layer);
 		return layer;
 	},
 	swapWith: function(manageObj){
-		if(!manageObj || !manageObj.instance || manageObj.instance!==this.instance || manageObj.id===this.id) return false;
+		if(!manageObj || !manageObj.instance || manageObj.instance!==this.instance || manageObj===this) return false;
 		var pos1 = this.instance.middlewareStack.indexOf(this.layer);
 		var pos2 = this.instance.middlewareStack.indexOf(manageObj.layer);
 		if(pos1===-1 || pos2===-1) return false;
@@ -130,8 +115,6 @@ var manageObjectProto = {
 		if(!enabled2) manageObj.enable();
 		this.instance.middlewareStack[pos1] = manageObj.layer;
 		this.instance.middlewareStack[pos2] = this.layer;
-		this.layer._emmObjID = this.id;
-		manageObj.layer._emmObjID = manageObj.id;
 		if(!enabled1) this.disable();
 		if(!enabled2) manageObj.disable();
 		return true;

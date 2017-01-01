@@ -26,7 +26,10 @@ npm install express-middleware-management --save
 ```
 Or [download the latest release](https://github.com/Unchosen/express-middleware-management/releases), or git clone the [repository on GitHub](https://github.com/Unchosen/express-middleware-management).
 
-### How to use / Example
+### Important Changes
+0.0.3 to 0.0.4 - Removed `manageMiddleware.getByID(ID)` and `layer._emmObjID`. Objects are now stored via Map. This allows multiple instances to use the same router stack.
+
+## How to use / Example
 
 Require the module, create a management instance, fetch the middleware to manage, then action!
 
@@ -111,10 +114,6 @@ manageMiddleware.getAllByName('myCustomMiddleware');
 
 // Get by function/handle itself
 manageMiddleware.getByHandle(theMiddlewareFunction);
-// Returns management object on success, false on failure.
-
-// Get by management object ID
-manageMiddleware.getByID(ID); // manageObject.id
 // Returns management object on success, false on failure.
 
 // Get the most recently added middleware. This would most likely be the method you use the most.
