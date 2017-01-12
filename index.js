@@ -10,11 +10,10 @@
 var me = module.exports = {};
 
 me.createInstance = function(expressApp){
-	return {
-		__proto__: instanceProto,
-		middlewareStack: expressApp._router.stack,
-		manageObjectMap: new Map()
-	};
+	var obj = Object.create(instanceProto);
+	obj.middlewareStack = expressApp._router.stack;
+	obj.manageObjectMap = new Map();
+	return obj;
 };
 
 me.noOpMiddleware = function(req, res, next){ next(); };
@@ -79,7 +78,11 @@ var instanceProto = {
 
 var manageObject = function(instanceObj,layerObj){
 	if(instanceObj.manageObjectMap.has(layerObj)) return instanceObj.manageObjectMap.get(layerObj);
-	var obj = { __proto__:manageObjectProto, instance:instanceObj, layer:layerObj, enabled:true, _handle:null };
+	var obj = Object.create(manageObjectProto);
+	obj.instance = instanceObj;
+	obj.layer = layerObj;
+	obj.enabled = true;
+	obj._handle = null;
 	instanceObj.manageObjectMap.set(layerObj,obj);
 	return obj;
 };

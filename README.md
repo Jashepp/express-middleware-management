@@ -156,7 +156,7 @@ manageObject.remove();
 
 // Swap a middleware with another middleware (swap positions in the router stack)
 manageObject.swapWith(manageObject2);
-// Both manageObject and manageObject2 will remain enabled/disabled, and keep the same ID as they had before. Only the Layer object is swapped.
+// Both manageObject and manageObject2 will remain enabled/disabled. Only the Layer object is swapped.
 
 // Move a middleware before another middleware (move position in the router stack)
 manageObject.insertBefore(manageObject2);
@@ -195,7 +195,7 @@ All the help is appreciated.
 
 MIT License
 
-Copyright (c) 2016 Jason Sheppard @ https://github.com/Unchosen
+Copyright (c) 2017 Jason Sheppard @ https://github.com/Unchosen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
