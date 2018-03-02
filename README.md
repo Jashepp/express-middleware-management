@@ -24,7 +24,7 @@ Install the module via [NPM](https://www.npmjs.com/package/express-middleware-ma
 ```
 npm install express-middleware-management --save
 ```
-Or [download the latest release](https://github.com/Unchosen/express-middleware-management/releases), or git clone the [repository on GitHub](https://github.com/Unchosen/express-middleware-management).
+Or [download the latest release](https://github.com/Jashepp/express-middleware-management/releases), or git clone the [repository on GitHub](https://github.com/Jashepp/express-middleware-management).
 
 ### Important Changes
 0.0.3 to 0.0.4 - Removed `manageMiddleware.getByID(ID)` and `layer._emmObjID`. Objects are now stored via Map. This allows multiple instances to use the same router stack.
@@ -175,7 +175,7 @@ manageObject.getNext()
 // Returns manageObject2 on success or false if there is no middleware after it
 ```
 
-If there are any more features you would like me to implement, please [create a GitHub issue](https://github.com/Unchosen/express-middleware-management/issues/new) with an example of how you would use it.
+If there are any more features you would like me to implement, please [create a GitHub issue](https://github.com/Jashepp/express-middleware-management/issues/new) with an example of how you would use it.
 
 ## Known Issues
 
@@ -195,7 +195,7 @@ All the help is appreciated.
 
 MIT License
 
-Copyright (c) 2017 Jason Sheppard @ https://github.com/Unchosen
+Copyright (c) 2018 Jason Sheppard @ https://github.com/Jashepp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -217,7 +217,7 @@ SOFTWARE.
 
 ## Links
 
-GitHub Repository: [https://github.com/Unchosen/express-middleware-management](https://github.com/Unchosen/express-middleware-management)
+GitHub Repository: [https://github.com/Jashepp/express-middleware-management](https://github.com/Jashepp/express-middleware-management)
 
 NPM Package: [https://www.npmjs.com/package/express-middleware-management](https://www.npmjs.com/package/express-middleware-management)
 

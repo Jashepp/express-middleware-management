@@ -1,7 +1,7 @@
 "use strict";
 
 /* 
- * GitHub Repository: https://github.com/Unchosen/express-middleware-management
+ * GitHub Repository: https://github.com/Jashepp/express-middleware-management
  * NPM Package: https://www.npmjs.com/package/express-middleware-management
  * 
  * See README.md for more information.
