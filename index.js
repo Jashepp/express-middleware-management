@@ -11,7 +11,14 @@ var me = module.exports = {};
 
 me.createInstance = function(expressApp){
 	var obj = Object.create(instanceProto);
-	obj.middlewareStack = expressApp._router.stack;
+	Object.defineProperty(obj,'middlewareStack',{
+		configurable:true, enumerable:true,
+		get: function(){
+			if(!expressApp._router || !expressApp._router.stack) return null;
+			delete this.middlewareStack;
+			return this.middlewareStack = expressApp._router.stack;
+		}
+	});
 	obj.manageObjectMap = new Map();
 	return obj;
 };
@@ -20,10 +27,12 @@ me.noOpMiddleware = function(req, res, next){ next(); };
 
 var instanceProto = {
 	getByStackIndex: function(index){
+		if(!this.middlewareStack) throw new Error('Express app router not yet initialised');
 		if(index<0 || index>=this.middlewareStack.length) return false;
 		return manageObject(this,this.middlewareStack[index]);
 	},
 	getByName: function(name,index){
+		if(!this.middlewareStack) throw new Error('Express app router not yet initialised');
 		var c = 0, r;
 		for(var i=0,l=this.middlewareStack.length; i<l; i++){
 			var layer = this.middlewareStack[i];
@@ -38,6 +47,7 @@ var instanceProto = {
 		return r;
 	},
 	getAllByName: function(name){
+		if(!this.middlewareStack) throw new Error('Express app router not yet initialised');
 		var arr = [];
 		for(var i=0,l=this.middlewareStack.length; i<l; i++){
 			var layer = this.middlewareStack[i];
@@ -47,6 +57,7 @@ var instanceProto = {
 		return arr;
 	},
 	getByHandle: function(handle){
+		if(!this.middlewareStack) throw new Error('Express app router not yet initialised');
 		if(handle===me.noOpMiddleware) return;
 		for(var i=0,l=this.middlewareStack.length; i<l; i++){
 			var layer = this.middlewareStack[i];
@@ -56,6 +67,7 @@ var instanceProto = {
 		return false;
 	},
 	getByLayer: function(layer){
+		if(!this.middlewareStack) throw new Error('Express app router not yet initialised');
 		for(var i=0,l=this.middlewareStack.length; i<l; i++){
 			var layerObj = this.middlewareStack[i];
 			if(layer===layerObj) return manageObject(this,layer);
@@ -63,6 +75,7 @@ var instanceProto = {
 		return false;
 	},
 	getRecent: function(){
+		if(!this.middlewareStack) throw new Error('Express app router not yet initialised');
 		if(this.middlewareStack.length>0){
 			var layer = this.middlewareStack[this.middlewareStack.length-1];
 			var manageObj = manageObject(this,layer);
@@ -71,6 +84,7 @@ var instanceProto = {
 		return false;
 	},
 	addLayer: function(layer){
+		if(!this.middlewareStack) throw new Error('Express app router not yet initialised');
 		this.middlewareStack.push(layer);
 		return manageObject(this,layer);
 	}
@@ -105,6 +119,7 @@ var manageObjectProto = {
 		return true;
 	},
 	remove: function(){
+		if(!this.instance.middlewareStack) throw new Error('Express app router not yet initialised');
 		this.enable();
 		var layer = this.layer;
 		var pos1 = this.instance.middlewareStack.indexOf(layer);
@@ -115,6 +130,7 @@ var manageObjectProto = {
 		return layer;
 	},
 	swapWith: function(manageObj){
+		if(!this.instance.middlewareStack) throw new Error('Express app router not yet initialised');
 		if(!manageObj || !manageObj.instance || manageObj.instance!==this.instance || manageObj===this) return false;
 		var pos1 = this.instance.middlewareStack.indexOf(this.layer);
 		var pos2 = this.instance.middlewareStack.indexOf(manageObj.layer);
@@ -130,6 +146,7 @@ var manageObjectProto = {
 		return true;
 	},
 	insertBefore: function(manageObj){
+		if(!this.instance.middlewareStack) throw new Error('Express app router not yet initialised');
 		if(!manageObj || !manageObj.instance || manageObj.instance!==this.instance || manageObj.id===this.id) return false;
 		var pos1 = this.instance.middlewareStack.indexOf(this.layer);
 		var pos2 = this.instance.middlewareStack.indexOf(manageObj.layer);
@@ -140,6 +157,7 @@ var manageObjectProto = {
 		return true;
 	},
 	insertAfter: function(manageObj){
+		if(!this.instance.middlewareStack) throw new Error('Express app router not yet initialised');
 		if(!manageObj || !manageObj.instance || manageObj.instance!==this.instance || manageObj.id===this.id) return false;
 		var pos1 = this.instance.middlewareStack.indexOf(this.layer);
 		var pos2 = this.instance.middlewareStack.indexOf(manageObj.layer);
@@ -151,11 +169,13 @@ var manageObjectProto = {
 		return true;
 	},
 	getPrevious: function(){
+		if(!this.instance.middlewareStack) throw new Error('Express app router not yet initialised');
 		var pos1 = this.instance.middlewareStack.indexOf(this.layer);
 		if(pos1===-1 || pos1===0) return false;
 		return manageObject(this.instance,this.instance.middlewareStack[pos1-1]);
 	},
 	getNext: function(){
+		if(!this.instance.middlewareStack) throw new Error('Express app router not yet initialised');
 		var pos1 = this.instance.middlewareStack.indexOf(this.layer);
 		if(pos1===-1 || pos1===this.instance.middlewareStack.length-1) return false;
 		return manageObject(this.instance,this.instance.middlewareStack[pos1+1]);
